@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import "./db.js";
 import { authRouter } from "./routers/auth.router.js";
+import { listingRouter } from "./routers/listing.route.js";
 
 dotenv.config();
 
@@ -17,3 +18,4 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/listings", listingRouter);

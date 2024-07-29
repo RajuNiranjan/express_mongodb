@@ -44,3 +44,42 @@ export const register = async (req, res, next) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const logIn = async (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(401).json({ message: "All fields are required" });
+  }
+  try {
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+
+    const validPassword = bcrypt.compareSync(password, user.password);
+
+    if (!validPassword) {
+      return res.status(404).json({ message: "invalid email or password" });
+    }
+
+    const userResponse = {
+      id: user._id,
+      userName: user.userName,
+      email: user.email,
+    };
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.cookie("jwt", token, { httpOnly: true });
+
+    return res
+      .status(200)
+      .json({ message: "user login successfully", user: userResponse });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};

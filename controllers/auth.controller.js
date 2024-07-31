@@ -26,6 +26,7 @@ export const register = async (req, res, next) => {
       id: newUser._id,
       userName: newUser.userName,
       email: newUser.email,
+      avatar: newUser.avatar,
     };
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
@@ -67,6 +68,7 @@ export const logIn = async (req, res, next) => {
       id: user._id,
       userName: user.userName,
       email: user.email,
+      avatar: user.avatar,
     };
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -84,16 +86,12 @@ export const logIn = async (req, res, next) => {
   }
 };
 
-
 export const logOut = async (req, res, next) => {
   try {
     res.clearCookie("jwt");
-    return res
-      .status(200)
-      .json({ message: "logedOut successfully" });
+    return res.status(200).json({ message: "logedOut successfully" });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Internal server error" })
+    return res.status(500).json({ message: "Internal server error" });
   }
-}
-
+};

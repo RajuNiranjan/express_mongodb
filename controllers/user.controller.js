@@ -41,5 +41,22 @@ export const updateUser = async (req, res, next) => {
         return res.status(500).json({ message: "internal server error" })
     }
 }
+export const deleteAccount = async (req, res, next) => {
+    try {
+        if (req.user.id !== req.params.id) {
+            return res
+                .status(401)
+                .json({ message: "You can't delete other's account" });
+        }
+        const user = await UserModel.findByIdAndDelete(req.params.id);
 
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
 
+        return res.status(200).json({ message: "Account Deleted Successfully" });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}

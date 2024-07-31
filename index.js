@@ -1,9 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import "./db.js";
+import cookieParser from "cookie-parser";
 import { authRouter } from "./routers/auth.router.js";
 import { listingRouter } from "./routers/listing.route.js";
-import cookieParser from "cookie-parser";
+import { UserRouter } from "./routers/user.router.js";
 
 dotenv.config();
 
@@ -21,3 +22,4 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/listings", listingRouter);
+app.use('/api/user', UserRouter)

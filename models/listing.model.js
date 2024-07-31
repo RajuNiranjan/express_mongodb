@@ -25,10 +25,10 @@ const ListingSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
-  // user: {
-  //   type: String,
-  //   required: true,
-  // },
+  user: {
+    type: String,
+    required: true,
+  },
 });
 
 export const ListingModel = mongoose.model("Listing", ListingSchema);
